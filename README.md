@@ -22,6 +22,7 @@
    * DDD architecture
    * CQRS
    * i18n
+   * Docker
 
 
 Welcome to Interview NodeJs Challenge! This README will guide you through setting up the project, accessing documentation, understanding the database design and backend architecture, as well as explaining the backend routes and sample APIs.
@@ -143,6 +144,53 @@ To run the project locally, follow these steps:
    ```bash
       npm run start:dev
    ```
+
+8. If get this error:
+```bash
+   Oops! Something went wrong! :(
+
+   ESLint: 8.57.0
+
+   ESLint couldn't find a configuration file. To set up a configuration file for this project, please run:
+
+      npm init @eslint/config
+
+   ESLint looked for configuration files in /interview-challenge/src/auth/application/guards and its ancestors. If it found none, it then looked in your home directory.
+
+   If you think you already have a configuration file or if you need more help, please stop by the ESLint Discord server: https://eslint.org/chat
+```
+Please add this file `.eslintrc.js`:
+```bash
+   module.exports = {
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+         project: 'tsconfig.json',
+         tsconfigRootDir: __dirname,
+         sourceType: 'module',
+      },
+      plugins: [
+         '@typescript-eslint/eslint-plugin',
+         'prettier'
+      ],
+      extends: [
+         'plugin:@typescript-eslint/recommended',
+         'plugin:prettier/recommended',
+      ],
+      root: true,
+      env: {
+         node: true,
+         jest: true,
+      },
+      ignorePatterns: ['.eslintrc.js'],
+      rules: {
+         '@typescript-eslint/interface-name-prefix': 'off',
+         '@typescript-eslint/explicit-function-return-type': 'off',
+         '@typescript-eslint/explicit-module-boundary-types': 'off',
+         '@typescript-eslint/no-explicit-any': 'error',
+         'prettier/prettier': 'error',
+      },
+   };
+```
 
 ## Database Design
 
