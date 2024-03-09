@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_DATABASE_URL")
+}
+
+model User {
+  id              Int             @id @default(autoincrement()) @map("user_pk")
+  username        String
+  password        String
+  email           String
+  avatar          String?
+  firstName       String          @map("first_name")
+  lastName        String          @map("last_name")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  latitude        Float?          
+  longitude       Float?          
+  likes           Like[]
+  dislikes        Dislike[]
+
+  @@map("users")
+
+  // Define Unique Constraints
+  @@unique([username])
+  @@unique([email])
+
+  // Indexes
+  @@index([createdAt])
+  @@index([updatedAt])
+}
+
+model Like {
+  id        Int       @id @default(autoincrement()) @map("like_id")
+  userId    Int       @map("user_id")
+  likedBy   User      @relation(fields: [userId], references: [id])
+  likedById Int       @map("liked_by_id")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@map("likes")
+
+  // Indexes
+  @@index([userId])
+
+  // No need for foreign key constraint here, it's handled through `@relation`
+}
+
+model Dislike {
+  id           Int      @id @default(autoincrement()) @map("dislike_id")
+  userId       Int      @map("user_id")
+  dislikedBy   User     @relation(fields: [userId], references: [id])
+  dislikedById Int      @map("disliked_by_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("dislikes")
+
+  // Indexes
+  @@index([userId])
+
+  // No need for foreign key constraint here, it's handled through `@relation`
+}
