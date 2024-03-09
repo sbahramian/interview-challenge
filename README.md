@@ -22,6 +22,7 @@
    * DDD architecture
    * CQRS
    * i18n
+   * Swagger
    * Docker
 
 
