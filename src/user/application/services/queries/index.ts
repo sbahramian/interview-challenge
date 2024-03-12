@@ -8,6 +8,7 @@ import { CheckSignUpProcessByUserIdHandler } from './check-signup-process-by-use
 import { UserIdExistHandler } from './user-id-exist';
 import { CheckAdminUserPermissionHandler } from './check-admin-user-permission';
 import { CheckSignInByEmailPasswordHandler } from './check-sign-in-by-email-password';
+import { GetNearbyUsersHandler } from './get-nearby-users';
 
 export * from './email-exist';
 export * from './get-user-profile-by-id';
@@ -19,6 +20,7 @@ export * from './check-signup-process-by-user-id';
 export * from './user-id-exist';
 export * from './check-admin-user-permission';
 export * from './check-sign-in-by-email-password';
+export * from './get-nearby-users';
 
 export const QueryHandlers = [
   GetUserProfileByIdHandler,
@@ -31,4 +33,5 @@ export const QueryHandlers = [
   UserIdExistHandler,
   CheckAdminUserPermissionHandler,
   CheckSignInByEmailPasswordHandler,
+  GetNearbyUsersHandler,
 ];

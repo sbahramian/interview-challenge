@@ -62,4 +62,70 @@ export class UserPrismaRepository {
       },
     });
   }
+
+  public async CountNearbyUsers(
+    user_id: number,
+    latitude: number,
+    longitude: number,
+    distanceInDegrees: number,
+  ): Promise<number> {
+    return await this.prisma.user.count({
+      where: {
+        AND: [
+          {
+            NOT: {
+              id: user_id,
+            },
+          },
+          {
+            latitude: {
+              gte: latitude - distanceInDegrees,
+              lte: latitude + distanceInDegrees,
+            },
+          },
+          {
+            longitude: {
+              gte: longitude - distanceInDegrees / Math.cos(latitude * (Math.PI / 180)),
+              lte: longitude + distanceInDegrees / Math.cos(latitude * (Math.PI / 180)),
+            },
+          },
+        ],
+      },
+    });
+  }
+
+  public async FindNearbyUsers(
+    user_id: number,
+    latitude: number,
+    longitude: number,
+    distanceInDegrees: number,
+    page: number,
+    size: number,
+  ): Promise<User[]> {
+    return await this.prisma.user.findMany({
+      where: {
+        AND: [
+          {
+            NOT: {
+              id: user_id,
+            },
+          },
+          {
+            latitude: {
+              gte: latitude - distanceInDegrees,
+              lte: latitude + distanceInDegrees,
+            },
+          },
+          {
+            longitude: {
+              gte: longitude - distanceInDegrees / Math.cos(latitude * (Math.PI / 180)),
+              lte: longitude + distanceInDegrees / Math.cos(latitude * (Math.PI / 180)),
+            },
+          },
+        ],
+      },
+      take: size,
+      skip: (page - 1) * size,
+    });
+  }
 }

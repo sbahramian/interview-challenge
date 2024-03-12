@@ -1,5 +1,4 @@
 import { RoleEnum } from '../enum';
-import { Schema } from 'ajv';
 
 export type JwtToken = {
   ip: string;
@@ -12,7 +11,7 @@ export type JwtToken = {
   roles: RoleEnum[];
 };
 
-export const JwtTokenSchema: Schema = {
+export const JwtTokenSchema = {
   type: 'object',
   properties: {
     ip: { type: 'string' },

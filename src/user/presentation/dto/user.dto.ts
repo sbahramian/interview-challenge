@@ -1,6 +1,7 @@
 import { MetaDto } from 'src/common/dto/index';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches } from 'class-validator';
+import { PageSizePaginationDto } from 'src/common';
 
 export class UserProfileDto {
   @ApiProperty({
@@ -177,6 +178,35 @@ export class UpdateUserLocationResponseDto {
     type: UpdateUserLocationDto,
   })
   data!: UpdateUserLocationDto;
+
+  @ApiProperty({
+    type: MetaDto,
+  })
+  meta!: MetaDto;
+}
+
+export class GetFindNearbyUsersDto {
+  @ApiProperty({
+    type: Number,
+    default: 100,
+  })
+  distanceInMeters!: number;
+}
+
+export class GetFindNearbyUsersPageSizePaginationRequestDto extends PageSizePaginationDto {}
+
+export class GetNearbyUsersDto {
+  @ApiProperty({
+    type: UserProfileDto,
+  })
+  users!: UserProfileDto[];
+}
+
+export class GetNearbyUsersResponseDto {
+  @ApiProperty({
+    type: GetNearbyUsersDto,
+  })
+  data!: GetNearbyUsersDto;
 
   @ApiProperty({
     type: MetaDto,

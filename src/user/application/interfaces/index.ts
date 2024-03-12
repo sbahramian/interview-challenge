@@ -25,3 +25,7 @@ export {
   UserPayloadResponseInterface,
 } from './update-user-location.interface';
 export { UpdateUserLocationResponseInterface } from './update-user-location-response.interface';
+export {
+  NearbyUsersInterface,
+  GetFindNearbyUsersPageSizePaginationRequestInterface,
+} from './get-nearby-users.interface';

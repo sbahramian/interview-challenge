@@ -5,3 +5,5 @@ export {
   UpdateUserProfileSuccessResponse,
   UpdateUserProfileBadRequestResponse,
 } from './update-user-profile.openapis';
+
+export { GetNearbyUsers, GetNearbyUsersSuccessResponse } from './get-nearby-users.openapis';

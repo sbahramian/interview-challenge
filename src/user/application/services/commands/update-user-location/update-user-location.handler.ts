@@ -6,10 +6,15 @@ import { UpdateUserLocationCommand } from './update-user-location.command';
 import { UpdateUserLocationInterface } from '../../../interfaces/update-user-location.interface';
 import { UserPrismaRepository } from '../../../../domain/services/repositories';
 import { UpdateUserLocationResponseInterface } from '../../../interfaces/update-user-location-response.interface';
+import { UserWebsocketFactory } from 'src/user/domain/services/factories';
+import { User } from '@prisma/client';
 
 @CommandHandler(UpdateUserLocationCommand)
 export class UpdateUserLocationHandler implements ICommandHandler<UpdateUserLocationCommand> {
-  constructor(private readonly userPrismaRepository: UserPrismaRepository) {}
+  constructor(
+    private readonly userWebsocketFactory: UserWebsocketFactory,
+    private readonly userPrismaRepository: UserPrismaRepository,
+  ) {}
 
   async execute(command: UpdateUserLocationCommand): Promise<UpdateUserLocationResponseInterface> {
     const is_updated = await this.updateUserLocation(command.user_id, command.dto, command.lang);
@@ -31,10 +36,14 @@ export class UpdateUserLocationHandler implements ICommandHandler<UpdateUserLoca
         };
       }
 
+      const user = await this.findUserById(user_id);
+
       await this.userPrismaRepository.UpdateById(user_id, {
         latitude: update_user_location?.latitude,
         longitude: update_user_location?.longitude,
       });
+
+      this.userWebsocketFactory.SendPublicMessage(`User ${user.firstName} ${user.lastName} updated location.`);
 
       return {
         is_updated: true,
@@ -54,5 +63,9 @@ export class UpdateUserLocationHandler implements ICommandHandler<UpdateUserLoca
 
   private async checkUserExistById(id: number): Promise<boolean> {
     return await this.userPrismaRepository.IsExist({ id });
+  }
+
+  private async findUserById(id: number): Promise<User> {
+    return await this.userPrismaRepository.FindUserById(id);
   }
 }

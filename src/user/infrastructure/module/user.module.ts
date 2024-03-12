@@ -1,9 +1,10 @@
 import { Global, Module, forwardRef } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { UserPrismaFactory, UserRedisFactory } from '../../domain/services/factories';
+import { UserPrismaFactory, UserRedisFactory, UserWebsocketFactory } from '../../domain/services/factories';
 import { UserPrismaRepository, UserRedisRepository } from '../../domain/services/repositories';
 import {
   CheckUserUseCase,
+  FindNearbyUsersInformationUseCase,
   LoginUserUseCase,
   RegisterUserUseCase,
   UserInformationUseCase,
@@ -13,12 +14,12 @@ import { CommandHandlers } from '../../application/services/commands';
 import { AuthModule } from '../../../auth/infrastructure/module';
 import { UserKeyManagerUtility } from '../../application/services/utilities';
 import { PrismaService } from 'src/user/domain/services/prisma';
-import { ClientV1UserController } from 'src/user/presentation/controllers';
+import { ClientV1FindNearbyUsersController, ClientV1UserController } from 'src/user/presentation/controllers';
 
 @Global()
 @Module({
   imports: [CqrsModule, forwardRef(() => AuthModule)],
-  controllers: [ClientV1UserController],
+  controllers: [ClientV1UserController, ClientV1FindNearbyUsersController],
   providers: [
     // Utility
     UserKeyManagerUtility,
@@ -27,6 +28,7 @@ import { ClientV1UserController } from 'src/user/presentation/controllers';
     RegisterUserUseCase,
     CheckUserUseCase,
     UserInformationUseCase,
+    FindNearbyUsersInformationUseCase,
     // Handler
     ...QueryHandlers,
     ...CommandHandlers,
@@ -35,6 +37,7 @@ import { ClientV1UserController } from 'src/user/presentation/controllers';
     // Factory
     UserPrismaFactory,
     UserRedisFactory,
+    UserWebsocketFactory,
     // Repository
     UserPrismaRepository,
     UserRedisRepository,

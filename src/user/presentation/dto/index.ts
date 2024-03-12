@@ -8,4 +8,8 @@ export {
   UpdateUserLocationRequestDto,
   UpdateUserLocationDto,
   UpdateUserLocationResponseDto,
+  GetFindNearbyUsersDto,
+  GetFindNearbyUsersPageSizePaginationRequestDto,
+  GetNearbyUsersDto,
+  GetNearbyUsersResponseDto,
 } from './user.dto';

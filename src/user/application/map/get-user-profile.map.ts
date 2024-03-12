@@ -14,4 +14,19 @@ export class GetUserProfileMap {
       longitude: item?.longitude || null,
     };
   }
+
+  static async items(items: User[]): Promise<GetMeResponseInterface[]> {
+    return items.map((item) => {
+      return {
+        user_id: item.id || null,
+        avatar: item?.avatar || null,
+        first_name: item?.firstName || null,
+        last_name: item?.lastName || null,
+        email: item.email,
+        username: item.username,
+        latitude: item?.latitude || null,
+        longitude: item?.longitude || null,
+      };
+    });
+  }
 }
