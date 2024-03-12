@@ -23,6 +23,7 @@
    * CQRS
    * i18n
    * Swagger
+   * Websocket
    * Docker
 
 
@@ -278,6 +279,12 @@ The backend routes and sample APIs are documented in the Swagger documentation m
 
    [PATCH] /client/v1/user/location/update 
    Update user profile information
+
+
+   Find Nearby Users [Client]
+   
+   [GET] /client/v1/find/nearby-users
+   Get nearby users information
 ```
 
 1. Sign up user
@@ -503,4 +510,60 @@ The backend routes and sample APIs are documented in the Swagger documentation m
          }
       }
    ```
+   Notice: After update user location send message on socket for all users to inform.
+   for example: ```User John Deo updated location.```
 
+
+   7. Find Nearby Users
+      http://localhost:3000/doc/v1#/Find%20Nearby%20Users%20%5BClient%5D/ClientV1FindNearbyUsersController_GetNearbyUsers
+      sample request:
+      ```Curl
+         curl -X 'GET' \
+            'http://localhost:3000/client/v1/find/nearby-users?distanceInMeters=100000&size=5&page=1' \
+            -H 'accept: application/json' \
+            -H 'language: ENGLISH' \
+            -H 'version: 1' \
+      ```
+      sample response:
+      ```json
+         {
+            "data": [
+               {
+                  "user_id": 2,
+                  "avatar": null,
+                  "first_name": "John1",
+                  "last_name": "Deo",
+                  "email": "john1.deo@mail.com",
+                  "username": "john1.deo@mail.com",
+                  "latitude": 10.53,
+                  "longitude": 10.5203
+               }
+            ],
+            "meta": {
+               "pagination": {
+                  "count_page": 1,
+                  "current_page": 1,
+                  "next_page": null,
+                  "previous_page": null,
+                  "per_page": 5,
+                  "from": 1,
+                  "to": 1,
+                  "total": 1
+               },
+               "server_time": "2024-03-12T13:17:12.103Z",
+               "has_error": false,
+               "message": [
+                  {
+                  "code": {
+                     "enum": "GET_USER_PROFILE_SUCCESSFULLY",
+                     "number": 10200
+                  },
+                  "text": {
+                     "developer": "Get user profile successfully.",
+                     "client": "Get user profile successfully."
+                  }
+                  }
+               ]
+            }
+         }
+      ```
